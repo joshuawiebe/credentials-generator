@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Username Generator</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1F51FF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .glass-box {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(56, 68, 201, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 320px;
+        }
+
+        .Btn {
+            width: 140px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            border: none;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.164);
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .text {
+            width: 65%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: rgb(2, 153, 153);
+        }
+
+        .svgIcon {
+            width: 35%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background-color: teal;
+        }
+
+        .Btn:hover .text {
+            background-color: rgb(0, 133, 133);
+        }
+
+        .Btn:hover .svgIcon {
+            background-color: rgb(0, 105, 105);
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-box">
+        <h1 style="color: white; margin-bottom: 24px;">Username Generator</h1>
+        <button class="Btn" style="display: none;" onclick="copyUsername()">
+            <span class="text"></span>
+            <span class="svgIcon">
+                <svg fill="white" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"></path></svg>
+            </span>
+        </button>
+        <button onclick="generate()" style="padding: 10px 20px; font-size: 16px; color: white; background-color: rgb(2, 153, 153); border: none; border-radius: 4px; cursor: pointer;">
+            ✨ Generate
+        </button>
+    </div>
+    <script>
+        const list1= [
+            'user123',
+            'coolguy',
+            'awesome_sauce',
+            'username_gen',
+            'funny_bunny',
+            'happy_coder',
+            'tech_wizard',
+            'creative_mind',
+            'smart_cookie',
+            'adventure_seeker'
+        ];
+        const list2 = [
+            'coder',
+            'gamer',
+            'artist',
+            'explorer',
+            'thinker',
+            'dreamer',
+            'innovator',
+            'creator',
+            'hacker',
+            'visionary'
+        ];
+
+        function generate() {
+            const random1 = list1[Math.floor(Math.random() * list1.length)];
+            const random2 = list2[Math.floor(Math.random() * list2.length)];
+
+            const username = random1 + random2;
+
+            const btn = document.getElementsByClassName('Btn')[0];
+            const text = document.getElementsByClassName('text')[0];
+            
+            btn.style.display = 'inline-block';
+            text.textContent = username;
+        }
+
+        function copyUsername() {
+            const text = document.getElementsByClassName('text')[0].textContent;
+
+            // In Zwischenablage kopieren
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Username copied: " + text);
+            }).catch(err => {
+                alert("❌ Copy failed: " + err);
+            });
+        }
+    </script>
+</body>
+</html>
