@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Username Generator</title>
+    <title>Username-Generator</title>
     <style>
         body, html {
             overflow: hidden;
@@ -34,70 +34,60 @@
         }
 
         .Btn {
-            width: 140px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            border: none;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.164);
-            cursor: pointer;
-            margin-bottom: 16px;
-        }
-
-        .text {
-            width: 65%;
-            height: 100%;
+            width: 180px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: rgb(0, 0, 0);
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background-color 0.3s ease;
         }
 
-        .Btn:hover .text {
-            background-color:rgb(155, 155, 155)
+        .Btn:hover {
+            background-color: #bdbdbd; /* Ganze Box wird grau */
+        }
+
+        .text {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .generate-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: rgb(2, 153, 153);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="glass-box">
         <h1 style="color: white; margin-bottom: 24px;">Username Generator</h1>
-        <button class="Btn" style="display: none;" onclick="copyUsername()">
-            <span class="text"></span>
-            <span class="svgIcon">
-                <svg fill="white" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z"></path></svg>
-            </span>
+        <!-- Copy-Button ist sichtbar -->
+        <button class="Btn" onclick="copyUsername()">
+            <span class="text">DeinUsername</span>
         </button>
-        <button onclick="generate()" style="padding: 10px 20px; font-size: 16px; color: white; background-color: rgb(2, 153, 153); border: none; border-radius: 4px; cursor: pointer;">
-            ✨ Generate
-        </button>
+        <button onclick="generate()" class="generate-btn">✨ Generate</button>
     </div>
+
     <script>
-        const list1= [
-            'user123',
-            'coolguy',
-            'awesome_sauce',
-            'username_gen',
-            'funny_bunny',
-            'happy_coder',
-            'tech_wizard',
-            'creative_mind',
-            'smart_cookie',
-            'adventure_seeker'
+        const list1 = [
+            'user123', 'coolguy', 'awesome_sauce', 'username_gen',
+            'funny_bunny', 'happy_coder', 'tech_wizard',
+            'creative_mind', 'smart_cookie', 'adventure_seeker'
         ];
         const list2 = [
-            'coder',
-            'gamer',
-            'artist',
-            'explorer',
-            'thinker',
-            'dreamer',
-            'innovator',
-            'creator',
-            'hacker',
-            'visionary'
+            'coder', 'gamer', 'artist', 'explorer',
+            'thinker', 'dreamer', 'innovator',
+            'creator', 'hacker', 'visionary'
         ];
 
         function generate() {
@@ -106,17 +96,14 @@
 
             const username = random1 + random2;
 
-            const btn = document.getElementsByClassName('Btn')[0];
-            const text = document.getElementsByClassName('text')[0];
-            
-            btn.style.display = 'inline-block';
+            // Username anzeigen
+            const text = document.querySelector('.text');
             text.textContent = username;
         }
 
         function copyUsername() {
-            const text = document.getElementsByClassName('text')[0].textContent;
+            const text = document.querySelector('.text').textContent;
 
-            // In Zwischenablage kopieren
             navigator.clipboard.writeText(text).then(() => {
                 alert("✅ Username copied: " + text);
             }).catch(err => {
