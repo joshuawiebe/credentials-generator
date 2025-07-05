@@ -1,1 +1,1 @@
-### Username-generator
+### username-generator
