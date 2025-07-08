@@ -9,7 +9,8 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            overflow: hidden;
+            touch-action: manipulation;
         }
 
         body {
@@ -89,21 +90,6 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s;
-        }
-
-        .result-box {
-            min-height: 32px;
-            margin-bottom: 18px;
-            color: #1a237e;
-            font-size: 1.25rem;
-            font-weight: bold;
-            text-align: center;
-            width: 100%;
-            background: rgba(255,255,255,0.35);
-            border-radius: 8px;
-            box-shadow: 0 1px 8px 0 rgba(79, 140, 255, 0.07);
-            padding: 8px 0;
-            transition: background 0.2s;
         }
 
         .switch {
@@ -222,11 +208,6 @@
             background-color: #0056b3;
         }
 
-        .result-box.dark-mode {
-            background: rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
-        }
-
         @media (max-width: 768px) {
             .glass-box { padding: 32px 24px; }
             .Btn { width: 150px; height: 40px; }
@@ -272,7 +253,7 @@
             <div class="glass-box">
                 <h2 style="color: white; margin-bottom: 18px;">Password</h2>
                 <button class="Btn" onclick="copyPassword()">
-                    <span class="pw-text">YourPassword</span>
+                    <span class="text">YourPassword</span>
                 </button>
                 <button onclick="generatePassword()" class="generate-btn">🔒 Generate Password</button>
             </div>
@@ -287,16 +268,7 @@
             const random1 = list1[Math.floor(Math.random() * list1.length)];
             const random2 = list2[Math.floor(Math.random() * list2.length)];
             const username = random1 + random2;
-            document.querySelector('.text').textContent = username;
-        }
-
-        function copyUsername() {
-            const text = document.querySelector('.text').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("✅ Username copied: " + text);
-            }).catch(err => {
-                alert("❌ Copy failed: " + err);
-            });
+            document.querySelectorAll('.text')[0].textContent = username;
         }
 
         function generatePassword() {
@@ -305,19 +277,28 @@
             for (let i = 0; i < 12; i++) {
                 password += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            document.querySelector('.pw-text').textContent = password;
+            document.querySelectorAll('.text')[1].textContent = password;
         }
 
-        function copyPassword() {
-            const pw = document.querySelector('.pw-text').textContent;
-            navigator.clipboard.writeText(pw).then(() => {
-                alert("✅ Password copied: " + pw);
+        function copyUsername() {
+            const text = document.querySelectorAll('.text')[0].textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Username copied: " + text);
             }).catch(err => {
                 alert("❌ Copy failed: " + err);
             });
         }
 
-        // Theme toggle
+        function copyPassword() {
+            const text = document.querySelectorAll('.text')[1].textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("✅ Password copied: " + text);
+            }).catch(err => {
+                alert("❌ Copy failed: " + err);
+            });
+        }
+
+        // Darkmode Toggle
         const toggle = document.getElementById('theme-toggle');
         const body = document.body;
         const topbar = document.getElementById('topbar');
@@ -325,14 +306,14 @@
         function enableDarkMode() {
             body.classList.add('dark-mode');
             topbar.classList.add('dark-mode');
-            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn, .result-box')
+            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn')
                 .forEach(el => el.classList.add('dark-mode'));
         }
 
         function disableDarkMode() {
             body.classList.remove('dark-mode');
             topbar.classList.remove('dark-mode');
-            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn, .result-box')
+            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn')
                 .forEach(el => el.classList.remove('dark-mode'));
         }
 
