@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Credentials Generator</title>
     <style>
-        body, html {
-            overflow: hidden;
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         body {
             min-height: 100vh;
-            margin: 0;
             background: linear-gradient(135deg, #1F51FF);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             font-family: Arial, sans-serif;
+            transition: background 0.4s;
+        }
+
+        .glass-topbar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100vw;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 8px;
+            background: rgba(255,255,255,0.18);
+            box-shadow: 0 2px 16px 0 rgba(31, 38, 135, 0.12);
+            backdrop-filter: blur(14px) brightness(1.10);
+            -webkit-backdrop-filter: blur(14px) brightness(1.10);
+            border-bottom: 1.5px solid rgba(255,255,255,0.18);
+            z-index: 999;
         }
 
         .glass-box {
@@ -31,6 +52,7 @@
             flex-direction: column;
             align-items: center;
             min-width: 320px;
+            transition: background 0.4s, box-shadow 0.4s;
         }
 
         .Btn {
@@ -45,16 +67,17 @@
             box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             margin-bottom: 16px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s;
         }
 
         .Btn:hover {
-            background-color: #bdbdbd; /* Ganze Box wird grau */
+            background-color: #bdbdbd;
         }
 
         .text {
             color: #000;
             font-weight: bold;
+            transition: color 0.3s;
         }
 
         .generate-btn {
@@ -65,139 +88,178 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        .glass-topbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 5px;
-  background: rgba(255,255,255,0.18);
-  box-shadow: 0 2px 16px 0 rgba(31, 38, 135, 0.12);
-  backdrop-filter: blur(14px) brightness(1.10);
-  -webkit-backdrop-filter: blur(14px) brightness(1.10);
-  border-bottom: 1.5px solid rgba(255,255,255,0.18);
-  z-index: 10;
-}
 
-.result-box {
-  min-height: 32px;
-  margin-bottom: 18px;
-  color: #1a237e;
-  font-size: 1.25rem;
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-  background: rgba(255,255,255,0.35);
-  border-radius: 8px;
-  box-shadow: 0 1px 8px 0 rgba(79, 140, 255, 0.07);
-  padding: 8px 0;
-  transition: background 0.2s;
-}
+        .result-box {
+            min-height: 32px;
+            margin-bottom: 18px;
+            color: #1a237e;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            background: rgba(255,255,255,0.35);
+            border-radius: 8px;
+            box-shadow: 0 1px 8px 0 rgba(79, 140, 255, 0.07);
+            padding: 8px 0;
+            transition: background 0.2s;
+        }
 
-/* Theme Switch */
-/* The switch - the box around the slider */
-.switch {
-  font-size: 17px;
-  position: relative;
-  display: inline-block;
-  width: 4em;
-  height: 2.2em;
-  border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .switch {
+            font-size: 17px;
+            position: relative;
+            display: inline-block;
+            width: 4em;
+            height: 2.2em;
+            border-radius: 30px;
+        }
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #2a2a2a;
-  transition: 0.4s;
-  border-radius: 30px;
-  overflow: hidden;
-}
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2a2a2a;
+            transition: 0.4s;
+            border-radius: 30px;
+            overflow: hidden;
+        }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 1.2em;
-  width: 1.2em;
-  border-radius: 20px;
-  left: 0.5em;
-  bottom: 0.5em;
-  transition: 0.4s;
-  transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
-  box-shadow: inset 8px -4px 0px 0px #fff;
-}
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 1.2em;
+            width: 1.2em;
+            border-radius: 20px;
+            left: 0.5em;
+            bottom: 0.5em;
+            transition: 0.4s;
+            transition-timing-function: cubic-bezier(0.81, -0.04, 0.38, 1.5);
+            box-shadow: inset 8px -4px 0px 0px #fff;
+        }
 
-.switch input:checked + .slider {
-  background-color: #00a6ff;
-}
+        .switch input:checked + .slider {
+            background-color: #00a6ff;
+        }
 
-.switch input:checked + .slider:before {
-  transform: translateX(1.8em);
-  box-shadow: inset 15px -4px 0px 15px #ffcf48;
-}
+        .switch input:checked + .slider:before {
+            transform: translateX(1.8em);
+            box-shadow: inset 15px -4px 0px 15px #ffcf48;
+        }
 
-.star {
-  background-color: #fff;
-  border-radius: 50%;
-  position: absolute;
-  width: 5px;
-  transition: all 0.4s;
-  height: 5px;
-}
+        .star {
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            width: 5px;
+            height: 5px;
+        }
 
-.star_1 {
-  left: 2.5em;
-  top: 0.5em;
-}
+        .star_1 { left: 2.5em; top: 0.5em; }
+        .star_2 { left: 2.2em; top: 1.2em; }
+        .star_3 { left: 3em; top: 0.9em; }
 
-.star_2 {
-  left: 2.2em;
-  top: 1.2em;
-}
+        .switch input:checked ~ .slider .star {
+            opacity: 0;
+        }
 
-.star_3 {
-  left: 3em;
-  top: 0.9em;
-}
+        .cloud {
+            width: 3.5em;
+            position: absolute;
+            bottom: -1.4em;
+            left: -1.1em;
+            opacity: 0;
+            transition: all 0.4s;
+        }
 
-.switch input:checked ~ .slider .star {
-  opacity: 0;
-}
+        .switch input:checked ~ .slider .cloud {
+            opacity: 1;
+        }
 
-.cloud {
-  width: 3.5em;
-  position: absolute;
-  bottom: -1.4em;
-  left: -1.1em;
-  opacity: 0;
-  transition: all 0.4s;
-}
+        /* DARK MODE */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f2027);
+        }
 
-.switch input:checked ~ .slider .cloud {
-  opacity: 1;
-}
+        .glass-box.dark-mode {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-topbar.dark-mode {
+            background: rgba(30,30,30,0.18);
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.18);
+            border-bottom: 1.5px solid rgba(0,0,0,0.18);
+        }
+
+        .text.dark-mode {
+            color: #fff;
+        }
+
+        .Btn.dark-mode {
+            background-color: #333;
+            border: 1px solid #555;
+        }
+
+        .Btn.dark-mode:hover {
+            background-color: #444;
+        }
+
+        .generate-btn.dark-mode {
+            background-color: #007bff;
+        }
+
+        .generate-btn.dark-mode:hover {
+            background-color: #0056b3;
+        }
+
+        .result-box.dark-mode {
+            background: rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .glass-box { padding: 32px 24px; }
+            .Btn { width: 150px; height: 40px; }
+            .generate-btn { padding: 8px 16px; font-size: 14px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .glass-box { padding: 24px 16px; }
+            .Btn { width: 120px; height: 35px; }
+            .generate-btn { padding: 6px 12px; font-size: 12px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; width: 100vw; margin-top: 54px;">
+    <div class="glass-topbar" id="topbar">
+        <label class="switch" title="Dark/Light Mode">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+                <span class="star star_1"></span>
+                <span class="star star_2"></span>
+                <span class="star star_3"></span>
+                <svg class="cloud" viewBox="0 0 64 32">
+                    <ellipse cx="32" cy="24" rx="32" ry="8" fill="#fff" opacity="0.7"/>
+                </svg>
+            </span>
+        </label>
+    </div>
+
+    <div style="margin-top: 64px; width: 100vw; display: flex; flex-direction: column; align-items: center;">
         <h1 style="color: white; margin-bottom: 36px; font-size: 2.5rem; letter-spacing: 1px;">Credentials Generator</h1>
         <div style="display: flex; flex-direction: row; gap: 32px; width: 100%; justify-content: center;">
             <div class="glass-box">
@@ -216,24 +278,16 @@
             </div>
         </div>
     </div>
+
     <script>
-        const list1 = [
-            'user123', 'coolguy', 'awesome_sauce', 'username_gen',
-            'funny_bunny', 'happy_coder', 'tech_wizard',
-            'creative_mind', 'smart_cookie', 'adventure_seeker'
-        ];
-        const list2 = [
-            'coder', 'gamer', 'artist', 'explorer',
-            'thinker', 'dreamer', 'innovator',
-            'creator', 'hacker', 'visionary'
-        ];
+        const list1 = ['user123', 'coolguy', 'awesome_sauce', 'username_gen', 'funny_bunny', 'happy_coder', 'tech_wizard', 'creative_mind', 'smart_cookie', 'adventure_seeker'];
+        const list2 = ['coder', 'gamer', 'artist', 'explorer', 'thinker', 'dreamer', 'innovator', 'creator', 'hacker', 'visionary'];
 
         function generate() {
             const random1 = list1[Math.floor(Math.random() * list1.length)];
             const random2 = list2[Math.floor(Math.random() * list2.length)];
             const username = random1 + random2;
-            const text = document.querySelector('.text');
-            text.textContent = username;
+            document.querySelector('.text').textContent = username;
         }
 
         function copyUsername() {
@@ -262,6 +316,40 @@
                 alert("❌ Copy failed: " + err);
             });
         }
+
+        // Theme toggle
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const topbar = document.getElementById('topbar');
+
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            topbar.classList.add('dark-mode');
+            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn, .result-box')
+                .forEach(el => el.classList.add('dark-mode'));
+        }
+
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            topbar.classList.remove('dark-mode');
+            document.querySelectorAll('.glass-box, .Btn, .text, .generate-btn, .result-box')
+                .forEach(el => el.classList.remove('dark-mode'));
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            toggle.checked = true;
+            enableDarkMode();
+        }
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                enableDarkMode();
+                localStorage.setItem('theme', 'dark');
+            } else {
+                disableDarkMode();
+                localStorage.setItem('theme', 'light');
+            }
+        });
     </script>
 </body>
 </html>
